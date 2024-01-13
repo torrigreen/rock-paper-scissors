@@ -38,10 +38,9 @@ function getPlayerChoice () {
 // function to play a single round
 function playRound(playerChoice, computerChoice) {
   // check for a tie
-  let tie = playerChoice === computerChoice;
-  if (tie) {return `you tie! replay the round.`};
+  if (playerChoice === computerChoice) {return `tie`};
 
-  // decide who wins if there's no tie
+  // decide who wins
   let playerWin = false;
 
   switch (true) {
@@ -52,12 +51,36 @@ function playRound(playerChoice, computerChoice) {
       break;
   }
 
-  // tell the player who won
-  return playerWin ? `you win! ${playerChoice} beats ${computerChoice}` : `you lose! ${playerChoice} beats ${computerChoice}`
+  // return whether the player won or not
+  return playerWin;
 }
 
 // function to play a whole best-of-five game
-  // play a round
-  // add score to whoever wins
+function game() {
+  // make variables to track score
+  let playerScore = 0;
+  let computerScore = 0;
+
   // play rounds until someone gets to three wins
+  while (playerScore < 3 && computerScore < 3) {
+    // play a round
+    let result = playRound(getPlayerChoice(), getComputerChoice());
+    
+    // alert if there was a tie
+    if (result === `tie`) {
+      console.log(`you tied! replay the round.`);
+    } // add score to player if they won
+    else if (result) {
+      playerScore++;
+      console.log(`you win! score: ${playerScore} - ${computerScore}`);
+    } // add score to computer otherwise
+    else {
+      computerScore++;
+      console.log(`you lose! score: ${playerScore} - ${computerScore}`);
+    }
+  }
+
   // tell player who wins the game
+  let message = (playerScore === 3) ? `you won the game! congratulations!` : `you lost the game! that's too bad!`;
+  console.log(message);
+}
