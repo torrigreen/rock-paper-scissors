@@ -36,9 +36,26 @@ function getPlayerChoice () {
 }
 
 // function to play a single round
+function playRound(playerChoice, computerChoice) {
   // check for a tie
+  let tie = playerChoice === computerChoice;
+  if (tie) {return `you tie! replay the round.`};
+
   // decide who wins if there's no tie
+  let playerWin = false;
+
+  switch (true) {
+    case (playerChoice === `rock`) && (computerChoice === `scissors`):
+    case (playerChoice === `paper`) && (computerChoice === `rock`):
+    case (playerChoice === `scissors`) && (computerChoice === `paper`):
+      playerWin = true;
+      break;
+  }
+
   // tell the player who won
+  return playerWin ? `you win! ${playerChoice} beats ${computerChoice}` : `you lose! ${playerChoice} beats ${computerChoice}`
+}
+
 // function to play a whole best-of-five game
   // play a round
   // add score to whoever wins
