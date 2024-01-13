@@ -11,12 +11,30 @@ function getComputerChoice() {
 }
 
 // function to get the player's choice
+function getPlayerChoice () {
   // repeat until the player chooses a valid option
+  let validChoice;
+  let choice;
+
+  while (!validChoice) {
     // prompt the player for a choice
+    choice = prompt(`rock, paper, or scissors?`);
+
     // make the choice lowercase
+    choice = choice.toLowerCase();
+
     // check for spelling
+    let options = [`rock`, `paper`, `scissors`];
+    validChoice = options.includes(choice);
+
     // tell player if their choice was invalid
+    if (!validChoice) {alert(`${choice} is not a valid option`)};
+  }
+
   // return the choice
+  return choice;
+}
+
 // function to play a single round
   // check for a tie
   // decide who wins if there's no tie
