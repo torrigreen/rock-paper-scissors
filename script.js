@@ -1,7 +1,15 @@
 // function to randomly return `rock`, `paper`, or `scissors`
+function getComputerChoice() {
   // have a list of choices
+  let options = [`rock`, `paper`, `scissors`];
+
   // pick a random choice
+  choice = options[Math.floor(Math.random() * options.length)];
+
   // return the result
+  return choice;
+}
+
 // function to get the player's choice
   // repeat until the player chooses a valid option
     // prompt the player for a choice
