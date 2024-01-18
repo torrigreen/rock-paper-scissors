@@ -29,31 +29,32 @@ function updateScore(winner) {
 		message = `you tied! replay the round.`;
 	} else if (winner) {
 		playerScore++;
-		message = `you win! score: ${playerScore} - ${computerScore}`;
+		message = `you win!`;
 	} else {
 		computerScore++;
-		message = `you lose! score: ${playerScore} - ${computerScore}`;
+		message = `you lose!`;
 	}
 
 	return message;
 }
 
 function showResult(message) {
-	results.innerHTML += `${message}<br />`;
+	results.textContent = `${message}`;
+	score.textContent = `your score - ${playerScore} | 
+											computer score - ${computerScore}`;
 
 	if (playerScore === 5) {
-		results.innerHTML += `you won the game! congratulations!`
-		endGame();
+		results.textContent = `you won the game! congratulations!`
+		resetGame();
 	} else if (computerScore === 5) {
-		results.innerHTML += `you lost the game! that's too bad!`
-		endGame();
+		results.textContent = `you lost the game! that's too bad!`
+		resetGame();
 	}
 }
 
-function endGame() {
-	const buttons = document.querySelectorAll(`button`);
-	buttons.forEach((button) => container.removeChild(button));
-	results.innerHTML += `<br />refresh to restart.`
+function resetGame() {
+	playerScore = 0;
+	computerScore = 0;
 }
 
 const container = document.querySelector(`div`);
@@ -68,6 +69,10 @@ for (choice of [`rock`, `paper`, `scissors`]) {
 
 	container.appendChild(choiceBtn);
 }
+
+const score = document.createElement(`div`);
+score.textContent = `your score - 0 | computer score - 0`;
+container.appendChild(score);
 
 const results = document.createElement(`div`);
 container.appendChild(results);
