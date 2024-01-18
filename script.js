@@ -1,66 +1,76 @@
 function getComputerChoice() {
-  let options = [`rock`, `paper`, `scissors`];
+	let options = [`rock`, `paper`, `scissors`];
 
-  choice = options[Math.floor(Math.random() * options.length)];
+	choice = options[Math.floor(Math.random() * options.length)];
 
-  return choice;
-}
-
-function getPlayerChoice () {
-  let validChoice;
-  let choice;
-
-  while (!validChoice) {
-    choice = prompt(`rock, paper, or scissors?`);
-
-    // account for the input not matching case
-    choice = choice.toLowerCase();
-
-    // check for spelling errors
-    let options = [`rock`, `paper`, `scissors`];
-    validChoice = options.includes(choice);
-
-    if (!validChoice) {alert(`${choice} is not a valid option`)};
-  }
-
-  return choice;
+	return choice;
 }
 
 function playRound(playerChoice, computerChoice) {
-  if (playerChoice === computerChoice) {return `tie`};
+	let playerWin = false;
 
-  let playerWin = false;
+	if (playerChoice === computerChoice) {playerWin = `tie`;};
 
-  switch (true) {
-    case (playerChoice === `rock`) && (computerChoice === `scissors`):
-    case (playerChoice === `paper`) && (computerChoice === `rock`):
-    case (playerChoice === `scissors`) && (computerChoice === `paper`):
-      playerWin = true;
-      break;
-  }
+	switch (true) {
+		case (playerChoice === `rock`) && (computerChoice === `scissors`):
+		case (playerChoice === `paper`) && (computerChoice === `rock`):
+		case (playerChoice === `scissors`) && (computerChoice === `paper`):
+			playerWin = true;
+			break;
+	}
 
-  return playerWin;
+	showResult(updateScore(playerWin));
 }
 
-function game() {
-  let playerScore = 0;
-  let computerScore = 0;
+function updateScore(winner) {
+	let message;
 
-  while (playerScore < 3 && computerScore < 3) {
-    let result = playRound(getPlayerChoice(), getComputerChoice());
-    
-    if (result === `tie`) {
-      console.log(`you tied! replay the round.`);
-    } else if (result) {
-      playerScore++;
-      console.log(`you win! score: ${playerScore} - ${computerScore}`);
-    } else {
-      computerScore++;
-      console.log(`you lose! score: ${playerScore} - ${computerScore}`);
-    }
-  }
+	if (winner === `tie`) {
+		message = `you tied! replay the round.`;
+	} else if (winner) {
+		playerScore++;
+		message = `you win! score: ${playerScore} - ${computerScore}`;
+	} else {
+		computerScore++;
+		message = `you lose! score: ${playerScore} - ${computerScore}`;
+	}
 
-  let message = (playerScore === 3) ? `you won the game! congratulations!` : 
-                                      `you lost the game! that's too bad!`;
-  console.log(message);
+	return message;
 }
+
+function showResult(message) {
+	results.innerHTML += `${message}<br />`;
+
+	if (playerScore === 5) {
+		results.innerHTML += `you won the game! congratulations!`
+		endGame();
+	} else if (computerScore === 5) {
+		results.innerHTML += `you lost the game! that's too bad!`
+		endGame();
+	}
+}
+
+function endGame() {
+	const buttons = document.querySelectorAll(`button`);
+	buttons.forEach((button) => container.removeChild(button));
+	results.innerHTML += `<br />refresh to restart.`
+}
+
+const container = document.querySelector(`div`);
+
+for (choice of [`rock`, `paper`, `scissors`]) {
+	const choiceBtn = document.createElement(`button`);
+
+	choiceBtn.textContent = choice;
+
+	choiceBtn.addEventListener(`click`, () => 
+		playRound(choice, getComputerChoice()));
+
+	container.appendChild(choiceBtn);
+}
+
+const results = document.createElement(`div`);
+container.appendChild(results);
+
+let playerScore = 0;
+let computerScore = 0;
